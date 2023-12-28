@@ -9,9 +9,31 @@
 </head>
 <body>
     <div id="container">
-        <div id="header">Header</div>
-        <div id="sidebar">Sidebar</div>
-        <div id="main">Main</div>
+        <header class="header">
+            <div>
+                <h1>Todo List</h1>
+            </div>
+        </header>
+
+        <nav class="side-bar">
+            <div class="default-view">
+                <button>Home</button>
+                <button>Today</button>
+                <button>Week</button>
+            </div>
+            <div class="project-view">
+                <h3>Projects</h3>
+                <div id="project-list"></div>
+                <div class="add-project">
+                    <button>Add project</button>
+                    <div id="display-add-project"></div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div id="main-content"></div>
+        </main>
     </div>
     
 </body>
