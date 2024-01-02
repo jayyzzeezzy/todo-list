@@ -31,6 +31,10 @@ body {
     display: none;
 }
 
+.hide-input {
+    display: none;
+}
+
 .main {
     background-color: blue;
 }
