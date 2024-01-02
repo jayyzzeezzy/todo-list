@@ -1,8 +1,11 @@
+import * as project from './project.js';
+
 // DOM Manipulation
 export const domController = (function() {
     const addProjectBtn = document.querySelector('.addProjectBtn');
     const addProjectField = document.querySelector('#display-add-project');
     const projectCancelBtn = document.querySelector('.project-cancel-btn');
+    const projectAddBtn = document.querySelector('.project-add-btn');
 
     // show add project field
     addProjectBtn.addEventListener('click', () => handleAddProject());
@@ -20,6 +23,21 @@ export const domController = (function() {
         addProjectField.classList.add('hide-input');
         // show button
         addProjectBtn.classList.remove('hide-btn-active');
+    };
+
+    // add to project list
+    projectAddBtn.addEventListener('click', () => handleProjectAdd());
+    function handleProjectAdd() {
+        // hide input field
+        addProjectField.classList.add('hide-input');
+        // show button
+        addProjectBtn.classList.remove('hide-btn-active');
+
+        // send input value to project list
+        const projectInput = document.querySelector('.add-project-input');
+        project.addProject(projectInput.value);
+        // reset input
+        projectInput.value = '';
     };
 
     const addTaskBtn = document.querySelector('.add-task-btn');
