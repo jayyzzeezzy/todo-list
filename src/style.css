@@ -27,7 +27,7 @@ body {
     grid-column: 1;
 }
 
-.add-project-active {
+.hide-btn-active {
     display: none;
 }
 
