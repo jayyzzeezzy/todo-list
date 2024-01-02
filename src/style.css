@@ -38,3 +38,7 @@ body {
 .main {
     background-color: blue;
 }
+
+#main-content {
+    margin: 0 150px;
+}
