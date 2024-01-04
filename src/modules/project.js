@@ -6,5 +6,6 @@ function addProject(project) {
 };
 
 export {
+    projectList,
     addProject
 };

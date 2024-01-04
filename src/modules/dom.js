@@ -38,6 +38,7 @@ export const domController = (function() {
         project.addProject(projectInput.value);
         // reset input
         projectInput.value = '';
+        renderProjects();
     };
 
     const addTaskBtn = document.querySelector('.add-task-btn');
@@ -61,4 +62,22 @@ export const domController = (function() {
         // show button
         addTaskBtn.classList.remove('hide-btn-active');
     };    
+
+    // display each project
+    function renderProjects() {
+        const projectListContainer = document.querySelector('#project-list');
+        projectListContainer.textContent = '';
+        project.projectList.forEach((project, index) => {
+            const projectTab = document.createElement('button');
+            projectTab.classList.add('project-tab');
+            projectTab.setAttribute('data-project-index', index);
+            projectTab.textContent = `${project}`;
+
+            const deleteIcon = document.createElement('i');
+            deleteIcon.classList.add('fa-regular', 'fa-trash-can');
+            
+            projectTab.appendChild(deleteIcon);
+            projectListContainer.appendChild(projectTab);
+        });
+    };
 })();

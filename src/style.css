@@ -35,6 +35,12 @@ body {
     display: none;
 }
 
+.project-tab {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+
 .main {
     background-color: blue;
 }
