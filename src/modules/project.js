@@ -2,10 +2,14 @@ const projectList = [];
 
 function addProject(project) {
     projectList.push(project);
-    console.log(projectList);
+};
+
+function spliceProjectList(content) {
+    projectList.splice(`${projectList.indexOf(content)}`, 1);
 };
 
 export {
     projectList,
-    addProject
+    addProject,
+    spliceProjectList,
 };

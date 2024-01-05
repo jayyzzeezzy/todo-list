@@ -39,6 +39,7 @@ export const domController = (function() {
         // reset input
         projectInput.value = '';
         renderProjects();
+        makeProjectEventListener();
     };
 
     const addTaskBtn = document.querySelector('.add-task-btn');
@@ -79,5 +80,21 @@ export const domController = (function() {
             projectTab.appendChild(deleteIcon);
             projectListContainer.appendChild(projectTab);
         });
+    };
+
+    function makeProjectEventListener() {
+        // delete icon
+        const projectDeleteIcon = document.querySelectorAll('.fa-trash-can');
+        projectDeleteIcon.forEach((icon) => icon.addEventListener('click', () => handleDeleteProject(icon.parentNode)));
+    };
+
+    function handleDeleteProject(node) {
+        // delete from DOM
+        if (node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
+        // delete from project module
+        project.spliceProjectList(node.textContent);
+        console.log(project.projectList);
     };
 })();
