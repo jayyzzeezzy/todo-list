@@ -1,4 +1,5 @@
 import * as project from './project.js';
+import * as task from './task.js';
 
 // DOM Manipulation
 export const domController = (function() {
@@ -63,6 +64,13 @@ export const domController = (function() {
         // show button
         addTaskBtn.classList.remove('hide-btn-active');
     };    
+
+    // add to task list
+    const taskAddBtn = document.querySelector('.task-add-btn');
+    taskAddBtn.addEventListener('click', () => addToTaskList());
+    function addToTaskList() {
+        console.log('success');
+    };
 
     // display each project
     function renderProjects() {
