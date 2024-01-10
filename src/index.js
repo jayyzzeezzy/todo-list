@@ -1,1 +1,1 @@
-import * as domManipulation from './modules/dom.js';
+import * as dom from './modules/dom.js';
