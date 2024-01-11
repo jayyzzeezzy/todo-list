@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import * as task from './task.js';
 import * as project from './project.js';
 
 // pop up project form
@@ -35,16 +37,16 @@ function addProjectForm() {
 
 // DOM logic that borrows functions from the project module
 function clearProjectDisplay() {
-    const projectListConstainer = document.querySelector('#project-list');
-    projectListConstainer.textContent = '';
+    const projectListContainer = document.querySelector('#project-list');
+    projectListContainer.textContent = '';
 };
 
 function renderProjects() {
     clearProjectDisplay();
 
-    const projectListConstainer = document.querySelector('#project-list');
+    const projectListContainer = document.querySelector('#project-list');
     project.projectList.forEach((project, index) => {
-        projectListConstainer.innerHTML += `
+        projectListContainer.innerHTML += `
             <div class="project-select" data-project-index="${index}">
                 ${project.title}
                 <i class="fa-regular fa-trash-can delete-project-button" aria-hidden="true"></i>
@@ -83,7 +85,90 @@ function deleteProjectFromDom(index) {
     renderProjects();
 };
 
+// pop up task form
+const addTaskBtn = document.querySelector('.add-task-btn');
+const displayAddTask = document.querySelector('#display-add-task');
+addTaskBtn.addEventListener('click', showTaskForm);
+function showTaskForm() {
+    addTaskBtn.classList.add('hide-btn-active');
+    displayAddTask.classList.remove('hide-input');
+};
+
+// task form - cancel action
+const taskCancelBtn = document.querySelector('.task-cancel-btn');
+taskCancelBtn.addEventListener('click', hideTaskForm);
+function hideTaskForm() {
+    displayAddTask.classList.add('hide-input');
+    addTaskBtn.classList.remove('hide-btn-active');
+};
+
+// task form - add action
+const taskAddBtn = document.querySelector('.task-add-btn');
+taskAddBtn.addEventListener('click', addTaskForm);
+function addTaskForm() {
+    hideTaskForm();
+
+    const taskInput = document.querySelector('.add-task-input');
+    const dateInput = document.querySelector('.task-due-date');
+    if (!taskInput.value) {
+        alert('Please enter a name');
+        return
+    }
+
+    task.addTask(taskInput.value, dateInput.value);
+    taskInput.value = '';
+    dateInput.value = '';
+};
+
+// borrow functions from the task module
+function clearTaskDisplay() {
+    const todoListContainer = document.querySelector('.todo-list');
+    todoListContainer.textContent = '';
+};
+
+function renderTasks() {
+    clearTaskDisplay();
+
+    const todoListContainer = document.querySelector('.todo-list');
+    task.taskList.forEach((task, index) => {
+        todoListContainer.innerHTML += `
+            <div class="todo-item" data-task-index="${index}">
+                <div class="todo-left-side">
+                    <i class="far fa-circle"></i>
+                    <p class="todo-title">${task.title}</P>
+                </div>
+
+                <div class="todo-left-edit">
+                    <input type="text" class="todo-edit-name">
+                </div>
+
+                <div class="todo-right-side">
+                    <p class="todo-due-date">${task.dueDate}</p>
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <i class="fa-regular fa-trash-can delete-task-button" aria-hidden="true"></i>
+                </div>
+
+                <div class="todo-right-edit">
+                    <input class="edit-due-date" type="date">
+                    <div class="edit-button-container">
+                        <button class="confirm-edit">Confirm</button>
+                        <button class="cancel-edit">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    listenForTaskClick();
+};
+
+function listenForTaskClick() {
+    // TODO
+};
+
+
 export {
     clearProjectDisplay,
     renderProjects,
+    renderTasks,
 };

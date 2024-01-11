@@ -1,18 +1,27 @@
+import * as dom from './dom.js';
+
 const taskList = [];
 
-function CreateTask(title, dueDate = 'No due date') {
+function CreateTask(title, dueDate) {
+    if (dueDate == '') {
+        dueDate = 'No due date';
+    };
+
     return {
         title,
         dueDate,
     };
 };
 
-function addToTaskList(obj) {
-    taskList.push(obj);
+function addTask(name, dueDate) {
+    const task = CreateTask(name, dueDate);
+    taskList.push(task);
+    console.log(taskList);
+    dom.renderTasks();
 };
 
 export {
     taskList,
     CreateTask,
-    addToTaskList,
+    addTask,
 };
