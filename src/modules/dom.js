@@ -163,7 +163,31 @@ function renderTasks() {
 };
 
 function listenForTaskClick() {
-    // TODO
+    const taskButtons = document.querySelectorAll('.todo-item');
+    taskButtons.forEach((button) => {
+        // pass button to handleTaskClick
+        button.addEventListener('click', handleTaskClick);
+    });
+};
+
+function handleTaskClick(e) {
+    const taskIndex = this.getAttribute('data-task-index');
+    // select button's children's children's node -> .todo-title
+    const taskTitle = this.children[0].children[1].textContent;
+    console.log(taskIndex);
+    console.log(taskTitle);
+    if (e.target.classList.contains('delete-task-button')) {
+        deleteTaskFromDom(taskIndex);
+        return
+    }
+
+};
+
+function deleteTaskFromDom(index) {
+    task.spliceTaskList(index);
+
+    // renderTasks will also clear display
+    renderTasks();
 };
 
 

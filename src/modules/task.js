@@ -20,8 +20,16 @@ function addTask(name, dueDate) {
     dom.renderTasks();
 };
 
+function spliceTaskList(index) {
+    if (index > -1) {
+        taskList.splice(index, 1);
+    }
+    console.log(taskList);
+};
+
 export {
     taskList,
     CreateTask,
     addTask,
+    spliceTaskList,
 };
