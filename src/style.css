@@ -48,3 +48,8 @@ body {
 #main-content {
     margin: 0 150px;
 }
+
+.edit-view-active,
+.default-view-active {
+    display: none;
+}

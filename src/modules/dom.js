@@ -138,17 +138,17 @@ function renderTasks() {
                     <p class="todo-title">${task.title}</P>
                 </div>
 
-                <div class="todo-left-edit">
+                <div class="todo-left-edit default-view-active">
                     <input type="text" class="todo-edit-name">
                 </div>
 
                 <div class="todo-right-side">
                     <p class="todo-due-date">${task.dueDate}</p>
-                    <i class="fa-regular fa-pen-to-square"></i>
+                    <i class="fa-regular fa-pen-to-square edit-task-button"></i>
                     <i class="fa-regular fa-trash-can delete-task-button" aria-hidden="true"></i>
                 </div>
 
-                <div class="todo-right-edit">
+                <div class="todo-right-edit default-view-active">
                     <input class="edit-due-date" type="date">
                     <div class="edit-button-container">
                         <button class="confirm-edit">Confirm</button>
@@ -176,11 +176,27 @@ function handleTaskClick(e) {
     const taskTitle = this.children[0].children[1].textContent;
     console.log(taskIndex);
     console.log(taskTitle);
+
     if (e.target.classList.contains('delete-task-button')) {
         deleteTaskFromDom(taskIndex);
         return
     }
 
+    // hide default view
+    if (e.target.classList.contains('edit-task-button')) {
+        hideDefaultTodoView();
+        return
+    };
+
+    // task edit - cancel action
+    if (e.target.classList.contains('cancel-edit')) {
+        hideEditTodoView();
+    };
+    
+    // task edit - confirm action
+    if (e.target.classList.contains('confirm-edit')) {
+        // TODO
+    };
 };
 
 function deleteTaskFromDom(index) {
@@ -190,6 +206,33 @@ function deleteTaskFromDom(index) {
     renderTasks();
 };
 
+function hideDefaultTodoView() {
+    // hide default view
+    const todoLeftSide = document.querySelector('.todo-left-side');
+    const todoRightSide = document.querySelector('.todo-right-side');
+    todoLeftSide.classList.add('edit-view-active');
+    todoRightSide.classList.add('edit-view-active');
+
+    // show edit view
+    const todoLeftEdit = document.querySelector('.todo-left-edit');
+    const todoRightEdit = document.querySelector('.todo-right-edit');
+    todoLeftEdit.classList.remove('default-view-active');
+    todoRightEdit.classList.remove('default-view-active');
+};
+
+function hideEditTodoView() {
+    // show default view
+    const todoLeftSide = document.querySelector('.todo-left-side');
+    const todoRightSide = document.querySelector('.todo-right-side');
+    todoLeftSide.classList.remove('edit-view-active');
+    todoRightSide.classList.remove('edit-view-active');
+
+    // hide edit view
+    const todoLeftEdit = document.querySelector('.todo-left-edit');
+    const todoRightEdit = document.querySelector('.todo-right-edit');
+    todoLeftEdit.classList.add('default-view-active');
+    todoRightEdit.classList.add('default-view-active');
+};
 
 export {
     clearProjectDisplay,
