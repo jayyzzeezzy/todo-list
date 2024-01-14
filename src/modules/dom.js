@@ -159,78 +159,67 @@ function renderTasks() {
         `;
     });
 
-    listenForTaskClick();
+    handleTodoBtnClicks();
 };
 
-function listenForTaskClick() {
-    const taskButtons = document.querySelectorAll('.todo-item');
-    taskButtons.forEach((button) => {
-        // pass button to handleTaskClick
-        button.addEventListener('click', handleTaskClick);
-    });
-
+function handleTodoBtnClicks() {
+    // make event listener for each functionality
     const taskDelete = document.querySelectorAll('.delete-task-button');
     taskDelete.forEach(btn => {btn.addEventListener('click', deleteTaskFromDom)});
 
     const taskEdit = document.querySelectorAll('.edit-task-button');
     taskEdit.forEach(btn => btn.addEventListener('click', hideDefaultTodoView));
-};
 
-function handleTaskClick(e) {
+    const taskCancel = document.querySelectorAll('.cancel-edit');
+    taskCancel.forEach(btn => btn.addEventListener('click', cancelEditTodo));
 
-    // task edit - cancel action
-    if (e.target.classList.contains('cancel-edit')) {
-        hideEditTodoView();
-    };
-    
-    // task edit - confirm action
-    if (e.target.classList.contains('confirm-edit')) {
-        // TODO
-    };
+    const taskConfirm = document.querySelectorAll('.confirm-edit');
+    // TODO
 };
 
 function deleteTaskFromDom(e) {
-    const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
-    task.spliceTaskList(taskIndex);
+    const targetIndex = e.target.parentNode.parentNode.dataset.taskIndex;
+    task.spliceTaskList(targetIndex);
 
     // renderTasks will also clear display
     renderTasks();
 };
 
 function hideDefaultTodoView(e) {
-    const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
-    // hide default view according to task index
+    const targetIndex = e.target.parentNode.parentNode.dataset.taskIndex;
+    // hide default view according to the selected task index
     const _todoLeftSide = document.querySelectorAll('.todo-left-side');
     const _todoRightSide = document.querySelectorAll('.todo-right-side');
-    _todoLeftSide[taskIndex].classList.add('edit-view-active');
-    _todoRightSide[taskIndex].classList.add('edit-view-active');
+    _todoLeftSide[targetIndex].classList.add('edit-view-active');
+    _todoRightSide[targetIndex].classList.add('edit-view-active');
 
 
-    // show edit view accroding to task index
+    // show edit view accroding to the selected task index
     const _todoLeftEdit = document.querySelectorAll('.todo-left-edit');
     const _todoRightEdit = document.querySelectorAll('.todo-right-edit');
-    _todoLeftEdit[taskIndex].classList.remove('default-view-active');
-    _todoRightEdit[taskIndex].classList.remove('default-view-active');
+    _todoLeftEdit[targetIndex].classList.remove('default-view-active');
+    _todoRightEdit[targetIndex].classList.remove('default-view-active');
 
     // preload edit value
     const _todoTitle = document.querySelectorAll('.todo-edit-name');
     const _todoDate = document.querySelectorAll('.edit-due-date');
-    _todoTitle[taskIndex].value = task.taskList[taskIndex].title;
-    _todoDate[taskIndex].value = task.taskList[taskIndex].dueDate;
+    _todoTitle[targetIndex].value = task.taskList[targetIndex].title;
+    _todoDate[targetIndex].value = task.taskList[targetIndex].dueDate;
 };
 
-function hideEditTodoView() {
-    // show default view
-    const todoLeftSide = document.querySelector('.todo-left-side');
-    const todoRightSide = document.querySelector('.todo-right-side');
-    todoLeftSide.classList.remove('edit-view-active');
-    todoRightSide.classList.remove('edit-view-active');
+function cancelEditTodo(e) {
+    const targetIndex = e.target.parentNode.parentNode.parentNode.dataset.taskIndex;
+    // show default view according to the selected task index
+    const _todoLeftSide = document.querySelectorAll('.todo-left-side');
+    const _todoRightSide = document.querySelectorAll('.todo-right-side');
+    _todoLeftSide[targetIndex].classList.remove('edit-view-active');
+    _todoRightSide[targetIndex].classList.remove('edit-view-active');
 
-    // hide edit view
-    const todoLeftEdit = document.querySelector('.todo-left-edit');
-    const todoRightEdit = document.querySelector('.todo-right-edit');
-    todoLeftEdit.classList.add('default-view-active');
-    todoRightEdit.classList.add('default-view-active');
+    // hide edit view according to the selected task index
+    const _todoLeftEdit = document.querySelectorAll('.todo-left-edit');
+    const _todoRightEdit = document.querySelectorAll('.todo-right-edit');
+    _todoLeftEdit[targetIndex].classList.add('default-view-active');
+    _todoRightEdit[targetIndex].classList.add('default-view-active');
 };
 
 export {
