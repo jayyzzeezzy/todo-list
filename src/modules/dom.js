@@ -168,6 +168,9 @@ function listenForTaskClick() {
         // pass button to handleTaskClick
         button.addEventListener('click', handleTaskClick);
     });
+
+    const taskDelete = document.querySelectorAll('.delete-task-button');
+    taskDelete.forEach(btn => {btn.addEventListener('click', deleteTaskFromDom)});
 };
 
 function handleTaskClick(e) {
@@ -176,11 +179,6 @@ function handleTaskClick(e) {
     const taskTitle = this.children[0].children[1].textContent;
     console.log(taskIndex);
     console.log(taskTitle);
-
-    if (e.target.classList.contains('delete-task-button')) {
-        deleteTaskFromDom(taskIndex);
-        return
-    }
 
     // hide default view
     if (e.target.classList.contains('edit-task-button')) {
@@ -199,8 +197,9 @@ function handleTaskClick(e) {
     };
 };
 
-function deleteTaskFromDom(index) {
-    task.spliceTaskList(index);
+function deleteTaskFromDom(e) {
+    const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
+    task.spliceTaskList(taskIndex);
 
     // renderTasks will also clear display
     renderTasks();
