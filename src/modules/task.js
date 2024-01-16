@@ -27,9 +27,17 @@ function spliceTaskList(index) {
     console.log(taskList);
 };
 
+function updateTodo(taskIndex, newName, newDate) {
+    taskList[taskIndex].title = newName;
+    taskList[taskIndex].dueDate = newDate;
+    dom.renderTasks();
+    console.log(taskList);
+};
+
 export {
     taskList,
     CreateTask,
     addTask,
     spliceTaskList,
+    updateTodo,
 };

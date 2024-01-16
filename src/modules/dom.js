@@ -174,7 +174,7 @@ function handleTodoBtnClicks() {
     taskCancel.forEach(btn => btn.addEventListener('click', cancelEditTodo));
 
     const taskConfirm = document.querySelectorAll('.confirm-edit');
-    // TODO
+    taskConfirm.forEach(btn => btn.addEventListener('click', confirmEditTodo));
 };
 
 function deleteTaskFromDom(e) {
@@ -220,6 +220,17 @@ function cancelEditTodo(e) {
     const _todoRightEdit = document.querySelectorAll('.todo-right-edit');
     _todoLeftEdit[targetIndex].classList.add('default-view-active');
     _todoRightEdit[targetIndex].classList.add('default-view-active');
+};
+
+function confirmEditTodo(e) {
+    const targetIndex = e.target.parentNode.parentNode.parentNode.dataset.taskIndex;
+    const _todoUpdateName = document.querySelectorAll('.todo-edit-name');
+    const _todoUpdateDate = document.querySelectorAll('.edit-due-date');
+    task.updateTodo(
+        targetIndex, 
+        _todoUpdateName[targetIndex].value, 
+        _todoUpdateDate[targetIndex].value
+    );
 };
 
 export {
