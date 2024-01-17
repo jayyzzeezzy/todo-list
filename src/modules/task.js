@@ -5,7 +5,6 @@ let taskList = [];
 
 function getTaskFromProject(projectIndex) {
     taskList = project.projectList[projectIndex].task;
-    dom.renderTasks();
 };
 
 function CreateTask(title, dueDate) {
@@ -19,9 +18,10 @@ function CreateTask(title, dueDate) {
     };
 };
 
-function addTask(name, dueDate) {
+function addTask(name, dueDate, projectIndex) {
     const task = CreateTask(name, dueDate);
     taskList.push(task);
+    project.updateProjectList(projectIndex, taskList);
     console.log(taskList);
     dom.renderTasks();
 };

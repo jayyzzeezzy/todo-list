@@ -36,9 +36,15 @@ function spliceProjectList(index) {
     console.log(projectList);
 };
 
+function updateProjectList(index, list) {
+    projectList[index].task = list;
+    storage.saveProjectToLocalStorage();
+};
+
 export {
     projectList,
     CreateProject,
     addProject,
     spliceProjectList,
+    updateProjectList,
 };

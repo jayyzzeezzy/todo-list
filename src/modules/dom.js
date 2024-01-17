@@ -2,6 +2,12 @@ import { format } from "date-fns";
 import * as task from './task.js';
 import * as project from './project.js';
 
+let currentProjectIndex = 0;
+
+function changeCurrentProjectIndex(index) {
+    currentProjectIndex = index;
+};
+
 // pop up project form
 const addProjectBtn = document.querySelector('.addProjectBtn');
 const displayAddProject = document.querySelector('#display-add-project');
@@ -69,12 +75,13 @@ function handleProjectClick(e) {
     // this refers to button from projectButtons
     const projectTitle = this.textContent;
     const projectIndex = this.getAttribute('data-project-index');
+    changeCurrentProjectIndex(projectIndex);
     task.getTaskFromProject(projectIndex);
     renderTasks();
 
     console.log(projectTitle);
     console.log(projectIndex);
-    
+
     if (e.target.classList.contains('delete-project-button')) {
         deleteProjectFromDom(projectIndex);
         return
@@ -119,7 +126,7 @@ function addTaskForm() {
         return
     }
 
-    task.addTask(taskInput.value, dateInput.value);
+    task.addTask(taskInput.value, dateInput.value, currentProjectIndex);
     taskInput.value = '';
     dateInput.value = '';
 };
