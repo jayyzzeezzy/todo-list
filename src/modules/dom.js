@@ -69,8 +69,12 @@ function handleProjectClick(e) {
     // this refers to button from projectButtons
     const projectTitle = this.textContent;
     const projectIndex = this.getAttribute('data-project-index');
+    task.getTaskFromProject(projectIndex);
+    renderTasks();
+
     console.log(projectTitle);
     console.log(projectIndex);
+    
     if (e.target.classList.contains('delete-project-button')) {
         deleteProjectFromDom(projectIndex);
         return

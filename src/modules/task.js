@@ -1,6 +1,12 @@
 import * as dom from './dom.js';
+import * as project from './project.js';
 
-const taskList = [];
+let taskList = [];
+
+function getTaskFromProject(projectIndex) {
+    taskList = project.projectList[projectIndex].task;
+    dom.renderTasks();
+};
 
 function CreateTask(title, dueDate) {
     if (dueDate == '') {
@@ -40,4 +46,5 @@ export {
     addTask,
     spliceTaskList,
     updateTodo,
+    getTaskFromProject,
 };
