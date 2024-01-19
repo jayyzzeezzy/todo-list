@@ -147,7 +147,7 @@ function renderTasks() {
         todoListContainer.innerHTML += `
             <div class="todo-item" data-task-index="${index}">
                 <div class="todo-left-side">
-                    <i class="far fa-circle"></i>
+                    <i class="far fa-circle complete-task-button"></i>
                     <p class="todo-title">${task.title}</P>
                 </div>
 
@@ -188,6 +188,9 @@ function handleTodoBtnClicks() {
 
     const taskConfirm = document.querySelectorAll('.confirm-edit');
     taskConfirm.forEach(btn => btn.addEventListener('click', confirmEditTodo));
+
+    const taskComplete = document.querySelectorAll('.complete-task-button');
+    taskComplete.forEach(btn => btn.addEventListener('click', deleteTaskFromDom));
 };
 
 function deleteTaskFromDom(e) {
