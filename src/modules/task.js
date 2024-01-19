@@ -7,6 +7,12 @@ function getTaskFromProject(projectIndex) {
     taskList = project.projectList[projectIndex].task;
 };
 
+function resetTaskList() {
+    taskList = [];
+    return taskList;
+};
+
+
 function CreateTask(title, dueDate) {
     if (dueDate == '') {
         dueDate = 'No due date';
@@ -47,4 +53,5 @@ export {
     spliceTaskList,
     updateTodo,
     getTaskFromProject,
+    resetTaskList,
 };

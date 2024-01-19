@@ -244,8 +244,25 @@ function confirmEditTodo(e) {
     );
 };
 
+// navbar function and logic
+const homeBtn = document.querySelector('.homeBtn');
+homeBtn.addEventListener('click', renderAllTasks);
+
+function renderAllTasks() {
+    const projects = project.getLocalStorage();
+    const todos = task.resetTaskList();
+    projects.forEach(project => {
+        project.task.forEach(todo => {
+            todos.push(todo);
+        });
+    });
+
+    renderTasks();
+};
+
 export {
     clearProjectDisplay,
     renderProjects,
     renderTasks,
+    renderAllTasks,
 };

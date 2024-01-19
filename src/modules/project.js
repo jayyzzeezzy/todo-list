@@ -3,12 +3,15 @@ import * as storage from './storage.js';
 
 let projectList = [];
 
-let localProjects = localStorage.getItem("projectList");
-if (!localProjects) {
-    console.log('No locally stored projects');
-}
-else {
-    projectList = JSON.parse(localProjects);
+function getLocalStorage() {
+    let localProjects = localStorage.getItem("projectList");
+    if (!localProjects) {
+        console.log('No locally stored projects');
+    }
+    else {
+        projectList = JSON.parse(localProjects);
+    };
+    return projectList;
 };
 
 // project function factory
@@ -47,4 +50,5 @@ export {
     addProject,
     spliceProjectList,
     updateProjectList,
+    getLocalStorage,
 };
