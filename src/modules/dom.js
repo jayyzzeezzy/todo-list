@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isThisWeek } from "date-fns";
 import * as task from './task.js';
 import * as project from './project.js';
 
@@ -72,6 +72,8 @@ function listenForProjectClick() {
 };
 
 function handleProjectClick(e) {
+    showAddTaskBtn();
+
     // this refers to button from projectButtons
     const projectTitle = this.textContent;
     const projectIndex = this.getAttribute('data-project-index');
@@ -245,10 +247,23 @@ function confirmEditTodo(e) {
 };
 
 // navbar function and logic
-const homeBtn = document.querySelector('.homeBtn');
-homeBtn.addEventListener('click', renderAllTasks);
+function hideAddTaskBtn() {
+    const addProjectBtn = document.querySelector('.add-task-btn');
+    addProjectBtn.classList.add('hide-btn-active');
+};
 
-function renderAllTasks() {
+function showAddTaskBtn() {
+    const addProjectBtn = document.querySelector('.add-task-btn');
+    addProjectBtn.classList.remove('hide-btn-active');
+};
+
+// NavBar - home button
+const homeBtn = document.querySelector('.homeBtn');
+homeBtn.addEventListener('click', renderHome);
+
+function renderHome() {
+    hideAddTaskBtn();
+
     const projects = project.getLocalStorage();
     const todos = task.resetTaskList();
     projects.forEach(project => {
@@ -260,9 +275,50 @@ function renderAllTasks() {
     renderTasks();
 };
 
+// NavBar - today button
+const todayBtn = document.querySelector('.todayBtn');
+todayBtn.addEventListener('click', renderToday);
+
+function renderToday() {
+    hideAddTaskBtn();
+
+    const todayDate = format(new Date(), "yyyy-MM-dd");
+    const projects = project.getLocalStorage();
+    const todos = task.resetTaskList();
+    projects.forEach(project => {
+        project.task.forEach(todo => {
+            if (todo.dueDate == todayDate) {
+                todos.push(todo);
+            }
+        })
+    });
+
+    renderTasks();
+};
+
+// NavBar - week button
+const weekBtn = document.querySelector('.weekBtn');
+weekBtn.addEventListener('click', renderWeek);
+
+function renderWeek() {
+    hideAddTaskBtn();
+
+    const projects = project.getLocalStorage();
+    const todos = task.resetTaskList();
+    projects.forEach(project => {
+        project.task.forEach(todo => {
+            if (isThisWeek(todo.dueDate)) {
+                todos.push(todo);
+            }
+        })
+    });
+
+    renderTasks();
+};
+
 export {
     clearProjectDisplay,
     renderProjects,
     renderTasks,
-    renderAllTasks,
+    renderHome,
 };
