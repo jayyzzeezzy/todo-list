@@ -34,8 +34,8 @@ function addProject(title) {
 function spliceProjectList(index) {
     if (index > -1) {
         projectList.splice(index, 1);
-        storage.saveProjectToLocalStorage();
     }
+    storage.saveProjectToLocalStorage();
     console.log(projectList);
 };
 

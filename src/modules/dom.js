@@ -86,6 +86,7 @@ function handleProjectClick(e) {
 
     if (e.target.classList.contains('delete-project-button')) {
         deleteProjectFromDom(projectIndex);
+        clearTaskDisplay();
         return
     };
     
