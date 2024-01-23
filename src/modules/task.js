@@ -7,13 +7,17 @@ function getTaskFromProject(projectIndex) {
     taskList = project.projectList[projectIndex].task;
 };
 
+function getTaskListLength() {
+    return taskList.length;
+};
+
 function resetTaskList() {
     taskList = [];
     return taskList;
 };
 
 
-function CreateTask(title, dueDate) {
+function CreateTask(title, dueDate, projectIndex, taskIndex) {
     if (dueDate == '') {
         dueDate = 'No due date';
     };
@@ -21,28 +25,31 @@ function CreateTask(title, dueDate) {
     return {
         title,
         dueDate,
+        projectIndex,
+        taskIndex,
     };
 };
 
-function addTask(name, dueDate, projectIndex) {
-    const task = CreateTask(name, dueDate);
+function addTask(name, dueDate, projectIndex, taskIndex) {
+    const task = CreateTask(name, dueDate, projectIndex, taskIndex);
     taskList.push(task);
     project.updateProjectList(projectIndex, taskList);
     console.log(taskList);
-    dom.renderTasks();
+    dom.renderTasks(taskList);
 };
 
-function spliceTaskList(index) {
-    if (index > -1) {
-        taskList.splice(index, 1);
-    }
+function spliceTaskList(projectIndex, taskIndex) {
+    getTaskFromProject(projectIndex)
+    taskList.splice(taskIndex, 1);
+    project.updateProjectList(projectIndex, taskList);
+
     console.log(taskList);
 };
 
 function updateTodo(taskIndex, newName, newDate) {
     taskList[taskIndex].title = newName;
     taskList[taskIndex].dueDate = newDate;
-    dom.renderTasks();
+    dom.renderTasks(taskList);
     console.log(taskList);
 };
 
@@ -54,4 +61,5 @@ export {
     updateTodo,
     getTaskFromProject,
     resetTaskList,
+    getTaskListLength,
 };

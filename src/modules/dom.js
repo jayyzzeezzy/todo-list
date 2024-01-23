@@ -3,6 +3,35 @@ import * as task from './task.js';
 import * as project from './project.js';
 
 let currentProjectIndex = 0;
+let currentTaskIndex = 0;
+
+let isHomeBtnClicked = false;
+let isTodayBtnClicked = false;
+let isWeekBtnClicked = false;
+
+function changeButtonState(string) {
+    switch (string) {
+        case 'home':
+            isHomeBtnClicked = true;
+            isTodayBtnClicked = false;
+            isWeekBtnClicked = false;
+            break;
+        case 'today':
+            isHomeBtnClicked = false;
+            isTodayBtnClicked = true;
+            isWeekBtnClicked = false;
+            break;
+        case 'week':
+            isHomeBtnClicked = false;
+            isTodayBtnClicked = false;
+            isWeekBtnClicked = true;
+            break;
+        default:
+            isHomeBtnClicked = false;
+            isTodayBtnClicked = false;
+            isWeekBtnClicked = false;
+    };
+};
 
 function changeCurrentProjectIndex(index) {
     currentProjectIndex = index;
@@ -39,6 +68,8 @@ function addProjectForm() {
 
     project.addProject(projectInput.value);
     projectInput.value = '';
+
+    currentTaskIndex = 0;
 };
 
 // DOM logic that borrows functions from the project module
@@ -78,8 +109,10 @@ function handleProjectClick(e) {
     const projectTitle = this.textContent;
     const projectIndex = this.getAttribute('data-project-index');
     changeCurrentProjectIndex(projectIndex);
-    task.getTaskFromProject(projectIndex);
-    renderTasks();
+    console.log(currentProjectIndex);
+    task.getTaskFromProject(currentProjectIndex);
+    
+    renderTasks(task.taskList);
 
     console.log(projectTitle);
     console.log(projectIndex);
@@ -129,7 +162,9 @@ function addTaskForm() {
         return
     }
 
-    task.addTask(taskInput.value, dateInput.value, currentProjectIndex);
+    task.getTaskFromProject(currentProjectIndex);
+    currentTaskIndex = task.getTaskListLength();
+    task.addTask(taskInput.value, dateInput.value, currentProjectIndex, currentTaskIndex);
     taskInput.value = '';
     dateInput.value = '';
 };
@@ -140,13 +175,13 @@ function clearTaskDisplay() {
     todoListContainer.textContent = '';
 };
 
-function renderTasks() {
+function renderTasks(list) {
     clearTaskDisplay();
 
     const todoListContainer = document.querySelector('.todo-list');
-    task.taskList.forEach((task, index) => {
+    list.forEach((task) => {
         todoListContainer.innerHTML += `
-            <div class="todo-item" data-task-index="${index}">
+            <div class="todo-item" data-project-index="${task.projectIndex}" data-task-index="${task.taskIndex}">
                 <div class="todo-left-side">
                     <i class="far fa-circle complete-task-button"></i>
                     <p class="todo-title">${task.title}</P>
@@ -195,33 +230,50 @@ function handleTodoBtnClicks() {
 };
 
 function deleteTaskFromDom(e) {
-    const targetIndex = e.target.parentNode.parentNode.dataset.taskIndex;
-    task.spliceTaskList(targetIndex);
+    const projectIndex = e.target.parentNode.parentNode.dataset.projectIndex;
+    const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
+    task.spliceTaskList(projectIndex, taskIndex);
 
     // renderTasks will also clear display
-    renderTasks();
+    if (isHomeBtnClicked) {
+        renderHome();
+    }
+    else if (isTodayBtnClicked) {
+        renderToday();
+    }
+    else if (isWeekBtnClicked) {
+        renderWeek();
+    }
+    else {
+        renderTasks(task.taskList);
+    }
+    
 };
 
 function hideDefaultTodoView(e) {
-    const targetIndex = e.target.parentNode.parentNode.dataset.taskIndex;
+    const projectIndex = e.target.parentNode.parentNode.dataset.projectIndex;
+    const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
     // hide default view according to the selected task index
     const _todoLeftSide = document.querySelectorAll('.todo-left-side');
     const _todoRightSide = document.querySelectorAll('.todo-right-side');
-    _todoLeftSide[targetIndex].classList.add('edit-view-active');
-    _todoRightSide[targetIndex].classList.add('edit-view-active');
+    console.log(projectIndex);
+    console.log(taskIndex);
+
+    _todoLeftSide[taskIndex].classList.add('edit-view-active');
+    _todoRightSide[taskIndex].classList.add('edit-view-active');
 
 
     // show edit view accroding to the selected task index
     const _todoLeftEdit = document.querySelectorAll('.todo-left-edit');
     const _todoRightEdit = document.querySelectorAll('.todo-right-edit');
-    _todoLeftEdit[targetIndex].classList.remove('default-view-active');
-    _todoRightEdit[targetIndex].classList.remove('default-view-active');
+    _todoLeftEdit[taskIndex].classList.remove('default-view-active');
+    _todoRightEdit[taskIndex].classList.remove('default-view-active');
 
     // preload edit value
     const _todoTitle = document.querySelectorAll('.todo-edit-name');
     const _todoDate = document.querySelectorAll('.edit-due-date');
-    _todoTitle[targetIndex].value = task.taskList[targetIndex].title;
-    _todoDate[targetIndex].value = task.taskList[targetIndex].dueDate;
+    _todoTitle[taskIndex].value = task.taskList[taskIndex].title;
+    _todoDate[taskIndex].value = task.taskList[taskIndex].dueDate;
 };
 
 function cancelEditTodo(e) {
@@ -261,22 +313,26 @@ function showAddTaskBtn() {
     addProjectBtn.classList.remove('hide-btn-active');
 };
 
+
+
 // NavBar - home button
 const homeBtn = document.querySelector('.homeBtn');
 homeBtn.addEventListener('click', renderHome);
 
 function renderHome() {
     hideAddTaskBtn();
+    changeButtonState('home');
+    console.log(currentProjectIndex);
 
     const projects = project.getLocalStorage();
     const todos = task.resetTaskList();
-    projects.forEach(project => {
+    projects.forEach((project) => {
         project.task.forEach(todo => {
-            todos.push(todo);
+            task.taskList.push(todo);
         });
     });
 
-    renderTasks();
+    renderTasks(todos);
 };
 
 // NavBar - today button
@@ -285,6 +341,8 @@ todayBtn.addEventListener('click', renderToday);
 
 function renderToday() {
     hideAddTaskBtn();
+    changeButtonState('today');
+    console.log(currentProjectIndex);
 
     const todayDate = format(new Date(), "yyyy-MM-dd");
     const projects = project.getLocalStorage();
@@ -297,7 +355,7 @@ function renderToday() {
         })
     });
 
-    renderTasks();
+    renderTasks(todos);
 };
 
 // NavBar - week button
@@ -306,6 +364,8 @@ weekBtn.addEventListener('click', renderWeek);
 
 function renderWeek() {
     hideAddTaskBtn();
+    changeButtonState('week');
+    console.log(currentProjectIndex);
 
     const projects = project.getLocalStorage();
     const todos = task.resetTaskList();
@@ -317,7 +377,7 @@ function renderWeek() {
         })
     });
 
-    renderTasks();
+    renderTasks(todos);
 };
 
 export {
