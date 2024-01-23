@@ -1,6 +1,7 @@
 import { format, isThisWeek } from "date-fns";
 import * as task from './task.js';
 import * as project from './project.js';
+import * as storage from './storage.js';
 
 let currentProjectIndex = 0;
 let currentTaskIndex = 0;
@@ -112,6 +113,8 @@ function handleProjectClick(e) {
     console.log(currentProjectIndex);
     task.getTaskFromProject(currentProjectIndex);
     
+    changeButtonState();
+    console.log(isHomeBtnClicked, isTodayBtnClicked, isWeekBtnClicked);
     renderTasks(task.taskList);
 
     console.log(projectTitle);
@@ -232,20 +235,26 @@ function handleTodoBtnClicks() {
 function deleteTaskFromDom(e) {
     const projectIndex = e.target.parentNode.parentNode.dataset.projectIndex;
     const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
-    task.spliceTaskList(projectIndex, taskIndex);
 
     // renderTasks will also clear display
     if (isHomeBtnClicked) {
+        storage.deleteTodo(projectIndex, taskIndex);
         renderHome();
     }
     else if (isTodayBtnClicked) {
+        storage.deleteTodo(projectIndex, taskIndex);
         renderToday();
     }
     else if (isWeekBtnClicked) {
+        storage.deleteTodo(projectIndex, taskIndex);
         renderWeek();
     }
     else {
-        renderTasks(task.taskList);
+        storage.deleteTodo(projectIndex, taskIndex);
+        // retrieve data
+        let storageProjectList = localStorage.getItem("projectList");
+        let storageProjects = JSON.parse(storageProjectList);
+        renderTasks(storageProjects[projectIndex].task);
     }
     
 };
@@ -320,19 +329,47 @@ const homeBtn = document.querySelector('.homeBtn');
 homeBtn.addEventListener('click', renderHome);
 
 function renderHome() {
+    clearTaskDisplay();
     hideAddTaskBtn();
     changeButtonState('home');
     console.log(currentProjectIndex);
 
     const projects = project.getLocalStorage();
-    const todos = task.resetTaskList();
-    projects.forEach((project) => {
-        project.task.forEach(todo => {
-            task.taskList.push(todo);
+    const todoListContainer = document.querySelector('.todo-list');
+    projects.forEach((project, projectIndex) => {
+        project.task.forEach((todo, todoIndex) => {
+            todoListContainer.innerHTML += `
+                <div class="todo-item" data-project-index="${projectIndex}" data-task-index="${todoIndex}">
+                    <div class="todo-left-side">
+                        <i class="far fa-circle complete-task-button"></i>
+                        <p class="todo-title">${todo.title}</P>
+                    </div>
+
+                    <div class="todo-left-edit default-view-active">
+                        <input type="text" class="todo-edit-name">
+                    </div>
+
+                    <div class="todo-right-side">
+                        <p class="todo-due-date">${todo.dueDate}</p>
+                        <i class="fa-regular fa-pen-to-square edit-task-button"></i>
+                        <i class="fa-regular fa-trash-can delete-task-button" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="todo-right-edit default-view-active">
+                        <input class="edit-due-date" type="date">
+                        <div class="edit-button-container">
+                            <button class="confirm-edit">Confirm</button>
+                            <button class="cancel-edit">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
         });
     });
 
-    renderTasks(todos);
+    // renderTasks(todos);
+    handleTodoBtnClicks();
+
 };
 
 // NavBar - today button
@@ -340,22 +377,57 @@ const todayBtn = document.querySelector('.todayBtn');
 todayBtn.addEventListener('click', renderToday);
 
 function renderToday() {
+    clearTaskDisplay();
     hideAddTaskBtn();
     changeButtonState('today');
     console.log(currentProjectIndex);
 
     const todayDate = format(new Date(), "yyyy-MM-dd");
     const projects = project.getLocalStorage();
-    const todos = task.resetTaskList();
-    projects.forEach(project => {
-        project.task.forEach(todo => {
-            if (todo.dueDate == todayDate) {
-                todos.push(todo);
+    const todoListContainer = document.querySelector('.todo-list');
+    projects.forEach((project, projectIndex) => {
+        project.task.forEach((todo, todoIndex) => {
+            if (todo.dueDate === todayDate) {
+                todoListContainer.innerHTML += `
+                    <div class="todo-item" data-project-index="${projectIndex}" data-task-index="${todoIndex}">
+                        <div class="todo-left-side">
+                            <i class="far fa-circle complete-task-button"></i>
+                            <p class="todo-title">${todo.title}</P>
+                        </div>
+
+                        <div class="todo-left-edit default-view-active">
+                            <input type="text" class="todo-edit-name">
+                        </div>
+
+                        <div class="todo-right-side">
+                            <p class="todo-due-date">${todo.dueDate}</p>
+                            <i class="fa-regular fa-pen-to-square edit-task-button"></i>
+                            <i class="fa-regular fa-trash-can delete-task-button" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="todo-right-edit default-view-active">
+                            <input class="edit-due-date" type="date">
+                            <div class="edit-button-container">
+                                <button class="confirm-edit">Confirm</button>
+                                <button class="cancel-edit">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
-        })
+            
+        });
     });
 
-    renderTasks(todos);
+    handleTodoBtnClicks();
+
+    // projects.forEach(project => {
+    //     project.task.forEach(todo => {
+    //         if (todo.dueDate == todayDate) {
+    //             todos.push(todo);
+    //         }
+    //     })
+    // });
 };
 
 // NavBar - week button
@@ -363,21 +435,56 @@ const weekBtn = document.querySelector('.weekBtn');
 weekBtn.addEventListener('click', renderWeek);
 
 function renderWeek() {
+    clearTaskDisplay();
     hideAddTaskBtn();
     changeButtonState('week');
     console.log(currentProjectIndex);
 
     const projects = project.getLocalStorage();
-    const todos = task.resetTaskList();
-    projects.forEach(project => {
-        project.task.forEach(todo => {
+    const todoListContainer = document.querySelector('.todo-list');
+    projects.forEach((project, projectIndex) => {
+        project.task.forEach((todo, todoIndex) => {
             if (isThisWeek(todo.dueDate)) {
-                todos.push(todo);
+                todoListContainer.innerHTML += `
+                    <div class="todo-item" data-project-index="${projectIndex}" data-task-index="${todoIndex}">
+                        <div class="todo-left-side">
+                            <i class="far fa-circle complete-task-button"></i>
+                            <p class="todo-title">${todo.title}</P>
+                        </div>
+
+                        <div class="todo-left-edit default-view-active">
+                            <input type="text" class="todo-edit-name">
+                        </div>
+
+                        <div class="todo-right-side">
+                            <p class="todo-due-date">${todo.dueDate}</p>
+                            <i class="fa-regular fa-pen-to-square edit-task-button"></i>
+                            <i class="fa-regular fa-trash-can delete-task-button" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="todo-right-edit default-view-active">
+                            <input class="edit-due-date" type="date">
+                            <div class="edit-button-container">
+                                <button class="confirm-edit">Confirm</button>
+                                <button class="cancel-edit">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
-        })
+            
+        });
     });
 
-    renderTasks(todos);
+    handleTodoBtnClicks();
+
+    // projects.forEach(project => {
+    //     project.task.forEach(todo => {
+    //         if (isThisWeek(todo.dueDate)) {
+    //             todos.push(todo);
+    //         }
+    //     })
+    // });
 };
 
 export {

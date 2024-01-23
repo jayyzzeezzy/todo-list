@@ -7,6 +7,14 @@ function getTaskFromProject(projectIndex) {
     taskList = project.projectList[projectIndex].task;
 };
 
+function getTaskListFromStorage(projectIndex) {
+    // retreieve data
+    let storageProjectList = localStorage.getItem("projectList");
+    let storageProjects = JSON.parse(storageProjectList);
+    taskList = storageProjects[projectIndex].task;
+    return taskList;
+};
+
 function getTaskListLength() {
     return taskList.length;
 };
@@ -38,13 +46,6 @@ function addTask(name, dueDate, projectIndex, taskIndex) {
     dom.renderTasks(taskList);
 };
 
-function spliceTaskList(projectIndex, taskIndex) {
-    getTaskFromProject(projectIndex)
-    taskList.splice(taskIndex, 1);
-    project.updateProjectList(projectIndex, taskList);
-
-    console.log(taskList);
-};
 
 function updateTodo(taskIndex, newName, newDate) {
     taskList[taskIndex].title = newName;
@@ -57,9 +58,9 @@ export {
     taskList,
     CreateTask,
     addTask,
-    spliceTaskList,
     updateTodo,
     getTaskFromProject,
     resetTaskList,
     getTaskListLength,
+    getTaskListFromStorage,
 };
