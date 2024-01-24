@@ -4,7 +4,6 @@ import * as project from './project.js';
 import * as storage from './storage.js';
 
 let currentProjectIndex = 0;
-let currentTaskIndex = 0;
 
 let isHomeBtnClicked = false;
 let isTodayBtnClicked = false;
@@ -70,7 +69,6 @@ function addProjectForm() {
     project.addProject(projectInput.value);
     projectInput.value = '';
 
-    currentTaskIndex = 0;
 };
 
 // DOM logic that borrows functions from the project module
@@ -115,7 +113,8 @@ function handleProjectClick(e) {
     
     changeButtonState();
     console.log(isHomeBtnClicked, isTodayBtnClicked, isWeekBtnClicked);
-    renderTasks(task.taskList);
+
+    renderTodoList(task.taskList);
 
     console.log(projectTitle);
     console.log(projectIndex);
@@ -166,8 +165,7 @@ function addTaskForm() {
     }
 
     task.getTaskFromProject(currentProjectIndex);
-    currentTaskIndex = task.getTaskListLength();
-    task.addTask(taskInput.value, dateInput.value, currentProjectIndex, currentTaskIndex);
+    task.addTask(taskInput.value, dateInput.value, currentProjectIndex);
     taskInput.value = '';
     dateInput.value = '';
 };
@@ -178,16 +176,16 @@ function clearTaskDisplay() {
     todoListContainer.textContent = '';
 };
 
-function renderTasks(list) {
+function renderTodoList(list) {
     clearTaskDisplay();
 
     const todoListContainer = document.querySelector('.todo-list');
-    list.forEach((task) => {
+    list.forEach((todo, todoIndex) => {
         todoListContainer.innerHTML += `
-            <div class="todo-item" data-project-index="${task.projectIndex}" data-task-index="${task.taskIndex}">
+            <div class="todo-item" data-project-index="${todo.projectIndex}" data-task-index="${todoIndex}">
                 <div class="todo-left-side">
                     <i class="far fa-circle complete-task-button"></i>
-                    <p class="todo-title">${task.title}</P>
+                    <p class="todo-title">${todo.title}</P>
                 </div>
 
                 <div class="todo-left-edit default-view-active">
@@ -195,7 +193,7 @@ function renderTasks(list) {
                 </div>
 
                 <div class="todo-right-side">
-                    <p class="todo-due-date">${task.dueDate}</p>
+                    <p class="todo-due-date">${todo.dueDate}</p>
                     <i class="fa-regular fa-pen-to-square edit-task-button"></i>
                     <i class="fa-regular fa-trash-can delete-task-button" aria-hidden="true"></i>
                 </div>
@@ -236,7 +234,6 @@ function deleteTaskFromDom(e) {
     const projectIndex = e.target.parentNode.parentNode.dataset.projectIndex;
     const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
 
-    // renderTasks will also clear display
     if (isHomeBtnClicked) {
         storage.deleteTodo(projectIndex, taskIndex);
         renderHome();
@@ -254,7 +251,7 @@ function deleteTaskFromDom(e) {
         // retrieve data
         let storageProjectList = localStorage.getItem("projectList");
         let storageProjects = JSON.parse(storageProjectList);
-        renderTasks(storageProjects[projectIndex].task);
+        renderTodoList(storageProjects[projectIndex].task);
     }
     
 };
@@ -369,7 +366,6 @@ function renderHome() {
         });
     });
 
-    // renderTasks(todos);
     handleTodoBtnClicks();
 
 };
@@ -492,6 +488,6 @@ function renderWeek() {
 export {
     clearProjectDisplay,
     renderProjects,
-    renderTasks,
+    renderTodoList,
     renderHome,
 };

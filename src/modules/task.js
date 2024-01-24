@@ -19,13 +19,8 @@ function getTaskListLength() {
     return taskList.length;
 };
 
-function resetTaskList() {
-    taskList = [];
-    return taskList;
-};
 
-
-function CreateTask(title, dueDate, projectIndex, taskIndex) {
+function CreateTask(title, dueDate, projectIndex) {
     if (dueDate == '') {
         dueDate = 'No due date';
     };
@@ -34,23 +29,22 @@ function CreateTask(title, dueDate, projectIndex, taskIndex) {
         title,
         dueDate,
         projectIndex,
-        taskIndex,
     };
 };
 
-function addTask(name, dueDate, projectIndex, taskIndex) {
-    const task = CreateTask(name, dueDate, projectIndex, taskIndex);
+function addTask(name, dueDate, projectIndex) {
+    const task = CreateTask(name, dueDate, projectIndex);
     taskList.push(task);
     project.updateProjectList(projectIndex, taskList);
     console.log(taskList);
-    dom.renderTasks(taskList);
+    dom.renderTodoList(taskList);
 };
 
 
 function updateTodo(taskIndex, newName, newDate) {
     taskList[taskIndex].title = newName;
     taskList[taskIndex].dueDate = newDate;
-    dom.renderTasks(taskList);
+    dom.renderTodoList(taskList);
     console.log(taskList);
 };
 
@@ -60,7 +54,6 @@ export {
     addTask,
     updateTodo,
     getTaskFromProject,
-    resetTaskList,
     getTaskListLength,
     getTaskListFromStorage,
 };

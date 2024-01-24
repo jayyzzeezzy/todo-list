@@ -1,4 +1,5 @@
 import * as project from './project.js';
+import * as task from './task.js';
 
 function saveProjectToLocalStorage() {
     const projects = project.projectList;
@@ -18,6 +19,8 @@ function deleteTodo(projectIndex, taskIndex) {
     const jsonProjects = JSON.stringify(jsonProjectList);
     localStorage.setItem("projectList", jsonProjects);
 
+    // delete from local data
+    task.taskList.splice(taskIndex, 1);
 };
 
 function getLocalStorage () {
