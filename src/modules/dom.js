@@ -300,14 +300,37 @@ function cancelEditTodo(e) {
 };
 
 function confirmEditTodo(e) {
-    const targetIndex = e.target.parentNode.parentNode.parentNode.dataset.taskIndex;
-    const _todoUpdateName = document.querySelectorAll('.todo-edit-name');
-    const _todoUpdateDate = document.querySelectorAll('.edit-due-date');
-    task.updateTodo(
-        targetIndex, 
-        _todoUpdateName[targetIndex].value, 
-        _todoUpdateDate[targetIndex].value
-    );
+    const projectIndex = e.target.parentNode.parentNode.parentNode.dataset.projectIndex;
+    const taskIndex = e.target.parentNode.parentNode.parentNode.dataset.taskIndex;
+
+    const todoItems = document.querySelectorAll('.todo-item');
+    todoItems.forEach(function(todo) {
+        if (todo.dataset.projectIndex === projectIndex && todo.dataset.taskIndex === taskIndex) {
+            let todoEditTitle = todo.children[1].children[0].value;
+            let todoEditDate = todo.children[3].children[0].value;
+
+            // set it to no due date if there is no entry
+            if (todoEditDate == '') {
+                todoEditDate = 'No due date';
+            }
+
+            project.updateTaskArray(projectIndex, taskIndex, todoEditTitle, todoEditDate);
+        }
+    });
+    
+    
+    if (isHomeBtnClicked) {
+        renderHome();
+    }
+    else if (isTodayBtnClicked) {
+        renderToday();
+    }
+    else if (isWeekBtnClicked) {
+        renderWeek();
+    }
+    else {
+        renderTodoList(task.taskList);
+    }
 };
 
 // navbar function and logic
@@ -418,14 +441,6 @@ function renderToday() {
     });
 
     handleTodoBtnClicks();
-
-    // projects.forEach(project => {
-    //     project.task.forEach(todo => {
-    //         if (todo.dueDate == todayDate) {
-    //             todos.push(todo);
-    //         }
-    //     })
-    // });
 };
 
 // NavBar - week button
@@ -476,13 +491,6 @@ function renderWeek() {
 
     handleTodoBtnClicks();
 
-    // projects.forEach(project => {
-    //     project.task.forEach(todo => {
-    //         if (isThisWeek(todo.dueDate)) {
-    //             todos.push(todo);
-    //         }
-    //     })
-    // });
 };
 
 export {

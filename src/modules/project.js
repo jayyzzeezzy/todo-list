@@ -44,6 +44,12 @@ function updateProjectList(index, list) {
     storage.saveProjectToLocalStorage();
 };
 
+function updateTaskArray(projectIndex, taskIndex, newName, newDate) {
+    projectList[projectIndex].task[taskIndex].title = newName;
+    projectList[projectIndex].task[taskIndex].dueDate = newDate;
+    storage.saveProjectToLocalStorage();
+};
+
 export {
     projectList,
     CreateProject,
@@ -51,4 +57,5 @@ export {
     spliceProjectList,
     updateProjectList,
     getLocalStorage,
+    updateTaskArray,
 };

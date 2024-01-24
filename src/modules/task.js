@@ -7,18 +7,6 @@ function getTaskFromProject(projectIndex) {
     taskList = project.projectList[projectIndex].task;
 };
 
-function getTaskListFromStorage(projectIndex) {
-    // retreieve data
-    let storageProjectList = localStorage.getItem("projectList");
-    let storageProjects = JSON.parse(storageProjectList);
-    taskList = storageProjects[projectIndex].task;
-    return taskList;
-};
-
-function getTaskListLength() {
-    return taskList.length;
-};
-
 
 function CreateTask(title, dueDate, projectIndex) {
     if (dueDate == '') {
@@ -40,20 +28,9 @@ function addTask(name, dueDate, projectIndex) {
     dom.renderTodoList(taskList);
 };
 
-
-function updateTodo(taskIndex, newName, newDate) {
-    taskList[taskIndex].title = newName;
-    taskList[taskIndex].dueDate = newDate;
-    dom.renderTodoList(taskList);
-    console.log(taskList);
-};
-
 export {
     taskList,
     CreateTask,
     addTask,
-    updateTodo,
     getTaskFromProject,
-    getTaskListLength,
-    getTaskListFromStorage,
 };
