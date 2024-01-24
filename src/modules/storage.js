@@ -20,7 +20,15 @@ function deleteTodo(projectIndex, taskIndex) {
 
 };
 
+function getLocalStorage () {
+    // retreieve data
+    let storageProjectList = localStorage.getItem("projectList");
+    let storageProjects = JSON.parse(storageProjectList);
+    return storageProjects;
+};
+
 export {
     saveProjectToLocalStorage,
     deleteTodo,
+    getLocalStorage,
 };

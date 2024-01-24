@@ -262,42 +262,44 @@ function deleteTaskFromDom(e) {
 function hideDefaultTodoView(e) {
     const projectIndex = e.target.parentNode.parentNode.dataset.projectIndex;
     const taskIndex = e.target.parentNode.parentNode.dataset.taskIndex;
-    // hide default view according to the selected task index
-    const _todoLeftSide = document.querySelectorAll('.todo-left-side');
-    const _todoRightSide = document.querySelectorAll('.todo-right-side');
-    console.log(projectIndex);
-    console.log(taskIndex);
 
-    _todoLeftSide[taskIndex].classList.add('edit-view-active');
-    _todoRightSide[taskIndex].classList.add('edit-view-active');
+    const todoItems = document.querySelectorAll('.todo-item');
+    todoItems.forEach(function(todo) {
+        if (todo.dataset.projectIndex === projectIndex && todo.dataset.taskIndex === taskIndex) {
+            // hide default view
+            todo.children[0].classList.add('edit-view-active');
+            todo.children[2].classList.add('edit-view-active');
 
+            // show edit view
+            todo.children[1].classList.remove('default-view-active');
+            todo.children[3].classList.remove('default-view-active');
 
-    // show edit view accroding to the selected task index
-    const _todoLeftEdit = document.querySelectorAll('.todo-left-edit');
-    const _todoRightEdit = document.querySelectorAll('.todo-right-edit');
-    _todoLeftEdit[taskIndex].classList.remove('default-view-active');
-    _todoRightEdit[taskIndex].classList.remove('default-view-active');
-
-    // preload edit value
-    const _todoTitle = document.querySelectorAll('.todo-edit-name');
-    const _todoDate = document.querySelectorAll('.edit-due-date');
-    _todoTitle[taskIndex].value = task.taskList[taskIndex].title;
-    _todoDate[taskIndex].value = task.taskList[taskIndex].dueDate;
+            // preload edit value
+            const storageProjects = storage.getLocalStorage();
+            todo.children[1].children[0].value = storageProjects[projectIndex].task[taskIndex].title;
+            todo.children[3].children[0].value = storageProjects[projectIndex].task[taskIndex].dueDate;
+            
+        }
+    });
 };
 
 function cancelEditTodo(e) {
-    const targetIndex = e.target.parentNode.parentNode.parentNode.dataset.taskIndex;
-    // show default view according to the selected task index
-    const _todoLeftSide = document.querySelectorAll('.todo-left-side');
-    const _todoRightSide = document.querySelectorAll('.todo-right-side');
-    _todoLeftSide[targetIndex].classList.remove('edit-view-active');
-    _todoRightSide[targetIndex].classList.remove('edit-view-active');
+    const projectIndex = e.target.parentNode.parentNode.parentNode.dataset.projectIndex;
+    const taskIndex = e.target.parentNode.parentNode.parentNode.dataset.taskIndex;
 
-    // hide edit view according to the selected task index
-    const _todoLeftEdit = document.querySelectorAll('.todo-left-edit');
-    const _todoRightEdit = document.querySelectorAll('.todo-right-edit');
-    _todoLeftEdit[targetIndex].classList.add('default-view-active');
-    _todoRightEdit[targetIndex].classList.add('default-view-active');
+    const todoItems = document.querySelectorAll('.todo-item');
+    todoItems.forEach(function(todo) {
+        if (todo.dataset.projectIndex === projectIndex && todo.dataset.taskIndex === taskIndex) {
+            // show default view
+            todo.children[0].classList.remove('edit-view-active');
+            todo.children[2].classList.remove('edit-view-active');
+
+            // hide edit view
+            todo.children[1].classList.add('default-view-active');
+            todo.children[3].classList.add('default-view-active');
+        }
+        
+    });
 };
 
 function confirmEditTodo(e) {
