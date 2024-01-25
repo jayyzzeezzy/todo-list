@@ -44,6 +44,9 @@ addProjectBtn.addEventListener('click', () => showProjectForm());
 function showProjectForm() {
     addProjectBtn.classList.add('hide-btn-active');
     displayAddProject.classList.remove('hide-input');
+
+    // to avoid adding project and todo simultaneously
+    hideTaskForm();
 };
 
 // project form - cancel action
@@ -102,6 +105,8 @@ function listenForProjectClick() {
 };
 
 function handleProjectClick(e) {
+    hideProjectForm();
+    hideTaskForm();
     showAddTaskBtn();
 
     // this refers to button from projectButtons
@@ -141,6 +146,9 @@ addTaskBtn.addEventListener('click', showTaskForm);
 function showTaskForm() {
     addTaskBtn.classList.add('hide-btn-active');
     displayAddTask.classList.remove('hide-input');
+
+    // to avoid adding project and todo simultaneously
+    hideProjectForm();
 };
 
 // task form - cancel action
