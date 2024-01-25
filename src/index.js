@@ -3,3 +3,4 @@ import * as project from './modules/project.js';
 
 project.getLocalStorage();
 dom.renderProjects();
+dom.renderHome();
