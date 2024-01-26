@@ -112,7 +112,10 @@ function handleProjectClick(e) {
     // this refers to button from projectButtons
     const projectTitle = this.textContent;
     const projectIndex = this.getAttribute('data-project-index');
+
+    removeClassOnProject(currentProjectIndex);
     changeCurrentProjectIndex(projectIndex);
+    applyClassOnProject(projectIndex);
     console.log(currentProjectIndex);
     task.getTaskFromProject(currentProjectIndex);
     
@@ -134,9 +137,21 @@ function handleProjectClick(e) {
 
 function deleteProjectFromDom(index) {
     project.spliceProjectList(index);
+    // reset current project index
+    changeCurrentProjectIndex(0);
 
     // renderProjects includes the clearProjectDisplay function
     renderProjects();
+};
+
+function applyClassOnProject(index) {
+    const projectButtons = document.querySelectorAll('.project-select');
+    projectButtons[index].classList.add('project-selected');
+};
+
+function removeClassOnProject(index) {
+    const projectButtons = document.querySelectorAll('.project-select');
+    projectButtons[index].classList.remove('project-selected');
 };
 
 // pop up task form
@@ -360,6 +375,7 @@ homeBtn.addEventListener('click', renderHome);
 
 function renderHome() {
     clearTaskDisplay();
+    removeClassOnProject(currentProjectIndex);
     hideAddTaskBtn();
     changeButtonState('home');
     console.log(currentProjectIndex);
@@ -407,6 +423,7 @@ todayBtn.addEventListener('click', renderToday);
 
 function renderToday() {
     clearTaskDisplay();
+    removeClassOnProject(currentProjectIndex);
     hideAddTaskBtn();
     changeButtonState('today');
     console.log(currentProjectIndex);
@@ -457,6 +474,7 @@ weekBtn.addEventListener('click', renderWeek);
 
 function renderWeek() {
     clearTaskDisplay();
+    removeClassOnProject(currentProjectIndex);
     hideAddTaskBtn();
     changeButtonState('week');
     console.log(currentProjectIndex);

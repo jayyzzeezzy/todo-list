@@ -1,3 +1,11 @@
+:root {
+    --background: #94a3b8;
+    --header-background: #64748b;
+    --hover-button: #8492a5;
+    --green-button: rgb(66, 209, 66);
+    --red-button: rgb(253, 61, 61);
+}
+
 html, body {
     height: 100%;
 }
@@ -6,6 +14,13 @@ body {
     margin: 0;
     padding: 0;
     font-family: Verdana, Geneva, Tahoma, Georgia, sans-serif;
+    background-color: var(--background);
+    color: white;
+}
+
+h1, h3, p {
+    margin: 0;
+    padding: 0;
 }
 
 #container {
@@ -16,22 +31,155 @@ body {
 }
 
 .header {
-    background-color: red;
+    background-color: var(--header-background);
     grid-row: 1;
     grid-column: 1 / 3;
+    box-shadow: 0px -3px 10px 5px white;
+    padding: 20px;
+    border-radius: 15px;
 }
 
 .side-bar {
-    background-color: green;
     grid-row: 2;
     grid-column: 1;
+    padding: 20px;
+    
 }
 
-.hide-btn-active,
-.hide-input,
-.edit-view-active,
-.default-view-active {
-    display: none;
+.default-view {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    cursor: pointer;
+    background-color: var(--background);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    text-align: left;
+    padding: 10px;
+}
+
+.homeBtn:focus,
+.todayBtn:focus,
+.weekBtn:focus,
+.homeBtn:hover,
+.todayBtn:hover,
+.weekBtn:hover {
+    background-color: var(--hover-button);
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.project-view {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.project-view > h3 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+}
+
+#project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project-select {
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 4px;
+}
+
+.project-select:hover,
+.project-selected {
+    cursor: pointer;
+    background-color: var(--hover-button);
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.addProjectBtn,
+.add-task-btn {
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 8px 10px;
+}
+
+.fa-plus {
+    color: var(--red-button);
+}
+
+.addProjectBtn:hover,
+.add-task-btn:hover {
+    background-color: var(--hover-button);
+    border-radius: 5px;
+}
+
+
+.add-project-input,
+.add-task-input,
+.task-due-date,
+.todo-edit-name,
+.edit-due-date {
+    background-color: var(--hover-button);
+    padding: 5px;
+    width: 150px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 1rem;
+}
+
+.project-btn-field {
+    display: flex;
+    justify-content: space-around;
+}
+
+.project-add-btn,
+.project-cancel-btn,
+.task-add-btn,
+.task-cancel-btn,
+.confirm-edit,
+.cancel-edit {
+    text-align: center;
+    padding: 6px 10px;
+    margin: 0;
+    width: 70px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.confirm-edit,
+.cancel-edit {
+    width: 100px;
+}
+
+.project-add-btn,
+.project-add-btn:hover,
+.task-add-btn,
+.task-add-btn:hover,
+.confirm-edit,
+.confirm-edit:hover {
+    background-color: var(--green-button);
+}
+
+.project-cancel-btn,
+.project-cancel-btn:hover,
+.task-cancel-btn,
+.task-cancel-btn:hover,
+.cancel-edit,
+.cancel-edit:hover {
+    background-color: var(--red-button);
 }
 
 .project-tab {
@@ -41,9 +189,90 @@ body {
 }
 
 .main {
-    background-color: blue;
+    border-left: 2px solid rgba(256 256 256 / 0.7);
 }
 
 #main-content {
-    margin: 0 150px;
+    margin: 30px 150px;
+    
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    border: 1px solid white;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    height: 50px;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.todo-item:hover {
+    box-shadow: 0px 0px 5px 1px white;
+}
+
+.todo-left-side,
+.todo-right-side {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.add-task-input {
+    height: 21px;
+}
+
+.todo-right-edit {
+    display: flex;
+    gap: 10px;
+}
+
+.todo-edit-name {
+    display: flex;
+    width: 150%;
+}
+
+#display-add-project {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#display-add-task {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid white;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+#display-add-task:hover {
+    box-shadow: 0px 0px 5px 1px white;
+}
+
+.add-task-input {
+    display: flex;
+    width: 50%;
+}
+
+#display-add-task.hide-input,
+#display-add-project.hide-input {
+    display: none;
+}
+
+.hide-btn-active,
+.hide-input,
+.edit-view-active,
+.default-view-active {
+    display: none;
 }
