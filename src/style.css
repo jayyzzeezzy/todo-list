@@ -27,7 +27,7 @@ h1, h3, p {
     min-height: 100%;
     display: grid;
     grid-template-columns: 200px 5fr;
-    grid-template-rows: 80px 5fr;
+    grid-template-rows: 80px 5fr 30px;
 }
 
 .header {
@@ -40,10 +40,9 @@ h1, h3, p {
 }
 
 .side-bar {
-    grid-row: 2;
-    grid-column: 1;
+    grid-row: 2 / 4;
+    grid-column: 1 / 2;
     padding: 20px;
-    
 }
 
 .default-view {
@@ -275,4 +274,32 @@ button {
 .edit-view-active,
 .default-view-active {
     display: none;
+}
+
+/* Footer support */
+.footer {
+    grid-column: 2;
+    grid-row: 3;
+    display: flex;
+    border-left: 2px solid rgba(256 256 256 / 0.7);
+    justify-content: center;
+}
+
+.footer-content {
+    display: flex;
+    gap: 10px;
+    font-size: 1rem;
+    color: black;
+    align-items: end;
+}
+
+.fa-github {
+    font-size: 20px;
+    color: black;
+    transition: transform 300ms ease-out;
+}
+
+.fa-github:hover {
+    transform: translate(0px, -5px) scale(1.5);
+    color: purple;
 }
