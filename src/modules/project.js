@@ -1,12 +1,14 @@
 import * as dom from './dom.js';
 import * as storage from './storage.js';
+import * as task from './task.js';
 
 let projectList = [];
 
 function getLocalStorage() {
     let localProjects = localStorage.getItem("projectList");
     if (!localProjects) {
-        console.log('No locally stored projects');
+        addProject('Default Project');
+        task.addTask('Default Todo', '2060-01-01', 0);
     }
     else {
         projectList = JSON.parse(localProjects);

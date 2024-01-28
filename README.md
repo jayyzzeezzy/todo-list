@@ -11,6 +11,14 @@ A personal task manager that helps you organize your projects, plan your day, an
 
 This is part of [The Odin Project](https://www.theodinproject.com) curriculum.
 
+## Features
+
+- Dynamically create, edit, and delete todo items. 
+- Allows you to group todos into a project.
+- View all todos in the home page.
+- Quickly display todos that are due on the same day/week with a click of a button.
+- Any changes made are saved to `localStorage`
+
 ## Built With
 
 - HTML
@@ -19,7 +27,7 @@ This is part of [The Odin Project](https://www.theodinproject.com) curriculum.
 - Webpack
 - NodeJS
 
-## Challenges
+## Challenges I faced
 
 When I was starting out on this project, I struggled on narrowing down to the most optimal design pattern. 
 
@@ -30,9 +38,15 @@ Other challenges that I've come across is trying to apply the OOP Principles (i.
 ## What I learned
 
 - DOM manipulation: create node, render info into each node, update node, and delete node. 
-- Using Web Storage API (i.e. localStorage)
+- Using Web Storage API (i.e. `localStorage`)
 - JS design patterns
 - OOP Principles
+
+## Improvements I want to make
+
+- JS Organization: refactor function factories with classes/constructors and implement IIFE module patterns. 
+- OOP Principles: make more loosely coupled objects to ensure a more modular code overall. 
+- Add more features like todo priority and allowing users to write a description. 
 
 ## Credits
 
