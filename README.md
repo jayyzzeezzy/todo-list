@@ -1,9 +1,9 @@
 
 # Todo List
 
-[Live Demo]()
+[Live Demo](https://jayyzzeezzy.github.io/todo-list)
 
-![]()
+![Todo live demo gif](./todo-live-demo.gif)
 
 ## Description
 
