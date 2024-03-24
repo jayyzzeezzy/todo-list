@@ -16,7 +16,7 @@ This is part of [The Odin Project](https://www.theodinproject.com) curriculum.
 - Dynamically create, edit, and delete todo items. 
 - Allows you to group todos into a project.
 - View all todos in the home page.
-- Quickly display todos that are due on the same day/week with a click of a button.
+- Quickly display todos that are due on the current day/week with a click of a button.
 - Any changes made are saved to `localStorage`
 
 ## Built With
@@ -31,9 +31,9 @@ This is part of [The Odin Project](https://www.theodinproject.com) curriculum.
 
 When I was starting out on this project, I struggled on narrowing down to the most optimal design pattern. 
 
-I debated between constructors/classes, function factories, and IIFE module patterns. Eventually, I settled on function factories because I wanted more practice in that area. 
+I debated between constructors/classes, function factories, and IIFE module patterns. 
 
-Other challenges that I've come across is trying to apply the OOP Principles (i.e. The Single Responsibility Principle and Loosely Coupled Objects), while also trying to write out some code to just have a working application. 
+Eventually, I settled on using function factories because I wanted polish this technique more. 
 
 ## What I learned
 
@@ -44,8 +44,8 @@ Other challenges that I've come across is trying to apply the OOP Principles (i.
 
 ## Improvements I want to make
 
-- JS Organization: refactor function factories with classes/constructors and implement IIFE module patterns. 
-- OOP Principles: make more loosely coupled objects to ensure a more modular code overall. 
+- Optimization: fine tune time and space complexities.
+- OOP Principles: make more loosely coupled objects. 
 - Add more features like todo priority and allowing users to write a description. 
 
 ## Credits
