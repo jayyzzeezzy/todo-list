@@ -33,12 +33,17 @@ When I was starting out on this project, I struggled on narrowing down to the mo
 
 I debated between constructors/classes, function factories, and IIFE module patterns. 
 
-Eventually, I settled on using function factories because I wanted polish this technique more. 
+Eventually, I settled on using Function Factories and bundle everything with Webpack.
 
 ## What I learned
 
-- DOM manipulation: create node, render info into each node, update node, and delete node. 
-- Using Web Storage API (i.e. `localStorage`)
+- DOM manipulation: 
+    - Create node
+    - Render info into each node
+    - Update node
+    - Delete node 
+- Creating a link between DOM elements and data structures
+- Web Storage API (i.e. `localStorage`)
 - JS design patterns
 - OOP Principles
 
