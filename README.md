@@ -77,7 +77,7 @@ npm run watch
 
 ### Live Preview
 
-You should have a folder structure that looks like below:
+Your folder structure should look like below:
 
 ```
 TODO-LIST
@@ -87,8 +87,9 @@ TODO-LIST
 │   └── main.js.map
 ```
 
-Right click on ``index.html``, then click on **Open With Liver Server**.  
-Your browser should open a new tab with a live preview of the project.
+Right click on ``index.html`` from the ``dist`` folder, then click on **Open With Liver Server**.  
+
+Your browser should now open a new tab with a live preview of the project.
 
 ## Credits
 
